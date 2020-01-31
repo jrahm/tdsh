@@ -9,10 +9,6 @@ edition = "2018"
 name = "tdsh"
 path = "src/main.rs"
 
-[[bin]]
-name = "tdsh-authenticate"
-path = "src/auth/main.rs"
-
 [dependencies]
 reqwest = { version = "0.10", features = ["json"] }
 tokio = { version = "0.2", features = ["full"] }
@@ -20,6 +16,7 @@ tiny_http = { features = ["ssl"], version = "0.6.2" }
 base64 = "0.11.0"
 percent-encoding = "2.1.0"
 directories = "2.0.2"
+clap = "2.33.0"
 
 [patch.crates-io]
 # Waiting for release that fixes the hanging SSL bug.

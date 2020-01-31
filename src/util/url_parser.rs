@@ -31,13 +31,15 @@ pub fn parse_url(raw: &str) -> Url {
             .map(|(k, v)| {
                 (
                     String::from(
-                    percent_encoding::percent_decode_str(k)
-                        .decode_utf8()
-                        .unwrap()),
-                        String::from(
-                    percent_encoding::percent_decode_str(v)
-                        .decode_utf8()
-                        .unwrap()),
+                        percent_encoding::percent_decode_str(k)
+                            .decode_utf8()
+                            .unwrap(),
+                    ),
+                    String::from(
+                        percent_encoding::percent_decode_str(v)
+                            .decode_utf8()
+                            .unwrap(),
+                    ),
                 )
             })
             .collect(),

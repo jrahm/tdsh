@@ -1,9 +1,7 @@
-extern crate base64;
-extern crate tiny_http;
 
-mod parser;
+use crate::util::url_parser;
 
-const RETURN_HTML: &str = include_str!("site/index.html");
+const RETURN_HTML: &str = include_str!("assets/site/index.html");
 const AUTH_URL : &str =
  "https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=http://127.0.0.1:8000&client_id=UTWO0CNUAERNK4OQDM5QC3LED4IAJBMU@AMER.OAUTHAP";
 
@@ -37,7 +35,7 @@ const AUTH_URL : &str =
  * https://auth.tdameritrade.com/oauth?client_id=UTWO0CNUAERNK4OQDM5QC3LED4IAJBMU@AMER.OAUTHAP&response_type=code&redirect_uri=http://127.0.0.1:5432'
  * --compressed
  */
-fn main() {
+pub fn authentication_main() {
 
     // Configure the server to listen on port 8000. Rumor has it that some
     // web-browsers will trust port 8000 on localhost.
@@ -47,8 +45,8 @@ fn main() {
         // Include the SSL certificates to provide SSL because TD ameritrade
         // will only redirect to SSL sites.
         ssl: Some(tiny_http::SslConfig {
-            private_key: include_bytes!("cert/key.pem").to_vec(),
-            certificate: include_bytes!("cert/cert.pem").to_vec(),
+            private_key: include_bytes!("assets/cert/key.pem").to_vec(),
+            certificate: include_bytes!("assets/cert/cert.pem").to_vec(),
         }),
     })
     .unwrap();
@@ -80,8 +78,8 @@ fn run_webbrowser() {
 
 /// Handles the request for this webserver.
 fn handle(req: tiny_http::Request) {
-    let url: parser::Url = parser::parse_url(req.url());
-    match parser::get_param(&url, &"code") {
+    let url: url_parser::Url = url_parser::parse_url(req.url());
+    match url_parser::get_param(&url, &"code") {
         Some(code) => {
             let _ = req.respond(handle_code(&code));
         }
